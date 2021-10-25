@@ -85,23 +85,50 @@ const temperature = document.querySelector(".temperature");
 const weatherDescription = document.querySelector(".weather-description");
 const wind = document.querySelector(".wind");
 const humidity = document.querySelector(".humidity");
+const weatherError = document.querySelector(".weather-error");
 
 const city = document.querySelector(".city");
 
 async function getWeather() {
-  if(!city.value) city.value = "Minsk";
+  if (!city.value) city.value = "Minsk";
+
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=en&appid=7be37864b0ff679ef0583a88d1ce3363&units=metric`;
   const res = await fetch(url);
   const data = await res.json();
-  weatherIcon.className = "weather-icon owf";
-  weatherIcon.classList.add(`owf-${data.weather[0].id}`);
-  temperature.textContent = `${Math.round(data.main.temp)}°C`;
-  weatherDescription.textContent = data.weather[0].description;
-  wind.textContent = `Wind speed: ${Math.round(data.wind.speed)} m/s`;
-  humidity.textContent = `Humidity: ${data.main.humidity}%`
+  if (data.cod >= 400 && data.cod < 600) {
+    weatherIcon.className = "";
+    temperature.textContent = "";
+    weatherDescription.textContent = "";
+    wind.textContent = "";
+    humidity.textContent = "";
+    weatherError.textContent = "Wrong city input";
+  } else {
+    weatherError.textContent = "";
+    weatherIcon.className = "weather-icon owf";
+    weatherIcon.classList.add(`owf-${data.weather[0].id}`);
+    temperature.textContent = `${Math.round(data.main.temp)}°C`;
+    weatherDescription.textContent = data.weather[0].description;
+    wind.textContent = `Wind speed: ${Math.round(data.wind.speed)} m/s`;
+    humidity.textContent = `Humidity: ${data.main.humidity}%`;
+  }
 }
 getWeather();
 city.addEventListener("change", getWeather);
+
+const quote = document.querySelector(".quote");
+const author = document.querySelector(".author");
+const changeQuote = document.querySelector(".change-quote");
+
+async function getQuotes() {
+  const url = `https://type.fit/api/quotes`;
+  const res = await fetch(url);
+  const data = await res.json();
+  let num = Math.floor(Math.random() * 1000);
+  quote.textContent = data[num].text;
+  author.textContent = data[num].author;
+}
+getQuotes();
+changeQuote.addEventListener("click", getQuotes);
 
 function setLocalStorage() {
   const name = document.querySelector(".name");
