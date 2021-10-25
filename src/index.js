@@ -1,6 +1,7 @@
 // import "./css/style.css";
 
-// import { calculate } from "./js/calc.js";
+import playList from "./js/playList.js";
+console.log(playList);
 
 document.getElementById("enterText").placeholder = "[Enter your name]";
 
@@ -129,6 +130,60 @@ async function getQuotes() {
 }
 getQuotes();
 changeQuote.addEventListener("click", getQuotes);
+
+let isPlay = false;
+let playNum = 0;
+const play = document.querySelector(".play");
+const audio = new Audio();
+
+const playListContainer = document.querySelector("ul.play-list");
+playList.forEach(el => {
+  const li = document.createElement("li");
+  li.classList.add("play-item");
+  li.textContent = el.title;
+  playListContainer.append(li);
+});
+
+console.log(playListContainer.children[0]);
+
+function playAudio() {
+  if (!isPlay) {
+    audio.src = playList[playNum].src;
+    audio.currentTime = 0;
+    audio.play();
+    play.classList.add('pause');
+    playListContainer.children[playNum].classList.add('item-active')
+    isPlay = true;
+  } else {
+    audio.pause();
+    play.classList.remove('pause');
+    playListContainer.children[playNum].classList.remove('item-active')
+    isPlay = false;
+  }
+}
+
+play.addEventListener("click", playAudio);
+
+function getPlayNext() {
+  playListContainer.children[playNum].classList.remove('item-active')
+  playNum < 3 ? playNum++ : (playNum = 0);
+  isPlay = false;
+  playAudio();
+}
+const playNext = document.querySelector(".play-next");
+playNext.addEventListener("click", getPlayNext);
+
+function getPlayPrev() {
+  playListContainer.children[playNum].classList.remove('item-active')
+  playNum > 0 ? playNum-- : (playNum = 3);
+  isPlay = false;
+  playAudio();
+}
+const playPrev = document.querySelector(".play-prev");
+playPrev.addEventListener("click", getPlayPrev);
+
+
+
 
 function setLocalStorage() {
   const name = document.querySelector(".name");
