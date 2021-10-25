@@ -2,6 +2,8 @@
 
 // import { calculate } from "./js/calc.js";
 
+document.getElementById("enterText").placeholder = "[Enter your name]";
+
 function showTime() {
   const date = new Date();
   const time = document.querySelector(".time");
@@ -41,20 +43,6 @@ function getTimeOfDay() {
   if (hours >= 0 && hours < 6) return "night";
 }
 
-function setLocalStorage() {
-  const name = document.querySelector(".name");
-  localStorage.setItem("name", name.value);
-}
-window.addEventListener("beforeunload", setLocalStorage);
-
-function getLocalStorage() {
-  const name = document.querySelector(".name");
-  if (localStorage.getItem("name")) {
-    name.value = localStorage.getItem("name");
-  }
-}
-window.addEventListener("load", getLocalStorage);
-
 let randomNum;
 
 function getRandomNum() {
@@ -70,10 +58,8 @@ function setBg() {
     randomNum = `0${randomNum}`;
     // randomNum.padStart(2, "0")
   }
-  console.log(randomNum);
   const bgNum = randomNum;
   img.src = `https://raw.githubusercontent.com/shalick/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`;
-  console.log(img.src);
   img.onload = () => {
     body.style.backgroundImage = `url('https://raw.githubusercontent.com/shalick/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg')`;
   };
@@ -93,3 +79,46 @@ function getSlidePrev() {
 }
 const slidePrev = document.querySelector(".slide-prev");
 slidePrev.addEventListener("click", getSlidePrev);
+
+const weatherIcon = document.querySelector(".weather-icon");
+const temperature = document.querySelector(".temperature");
+const weatherDescription = document.querySelector(".weather-description");
+const wind = document.querySelector(".wind");
+const humidity = document.querySelector(".humidity");
+
+const city = document.querySelector(".city");
+
+async function getWeather() {
+  if(!city.value) city.value = "Minsk";
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=en&appid=7be37864b0ff679ef0583a88d1ce3363&units=metric`;
+  const res = await fetch(url);
+  const data = await res.json();
+  weatherIcon.className = "weather-icon owf";
+  weatherIcon.classList.add(`owf-${data.weather[0].id}`);
+  temperature.textContent = `${Math.round(data.main.temp)}°C`;
+  weatherDescription.textContent = data.weather[0].description;
+  wind.textContent = `Wind speed: ${Math.round(data.wind.speed)} m/s`;
+  humidity.textContent = `Humidity: ${data.main.humidity}%`
+}
+getWeather();
+city.addEventListener("change", getWeather);
+
+function setLocalStorage() {
+  const name = document.querySelector(".name");
+  const city = document.querySelector(".city");
+  localStorage.setItem("name", name.value);
+  localStorage.setItem("city", city.value);
+}
+window.addEventListener("beforeunload", setLocalStorage);
+
+function getLocalStorage() {
+  const name = document.querySelector(".name");
+  const city = document.querySelector(".city");
+  if (localStorage.getItem("name")) {
+    name.value = localStorage.getItem("name");
+  }
+  if (localStorage.getItem("city")) {
+    city.value = localStorage.getItem("city");
+  }
+}
+window.addEventListener("load", getLocalStorage);
