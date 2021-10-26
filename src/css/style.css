@@ -39,6 +39,34 @@ body {
   margin-bottom: 28px;
 }
 
+.audio-time {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.currentTime {
+  padding-right: 7px;
+}
+
+.durationTime {
+  padding-left: 7px;
+}
+
+.volume {
+  display: flex;
+  align-items: center;
+}
+
+.muteButton {
+  display: flex;
+  align-items: center;
+  margin: 12px;
+}
+
+#soundVolume {
+  width: 70px;
+}
 .play-list {
   text-align: left;
 }
@@ -68,6 +96,7 @@ body {
 .item-active::before {
   color: #C5B358;
 }
+
 
 .player-icon,
 .slider-icon,

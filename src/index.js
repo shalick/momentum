@@ -1,7 +1,7 @@
 // import "./css/style.css";
 
 import playList from "./js/playList.js";
-console.log(playList);
+console.log("Привет. Спасибо, что проверяешь работу. Всё ещё доделываю. Пожалуйста, проверь через пару дней");
 
 document.getElementById("enterText").placeholder = "[Enter your name]";
 
@@ -137,27 +137,25 @@ const play = document.querySelector(".play");
 const audio = new Audio();
 
 const playListContainer = document.querySelector("ul.play-list");
-playList.forEach(el => {
+playList.forEach((el) => {
   const li = document.createElement("li");
   li.classList.add("play-item");
   li.textContent = el.title;
   playListContainer.append(li);
 });
 
-console.log(playListContainer.children[0]);
-
 function playAudio() {
   if (!isPlay) {
     audio.src = playList[playNum].src;
-    audio.currentTime = 0;
+    // audio.currentTime = 0;
     audio.play();
-    play.classList.add('pause');
-    playListContainer.children[playNum].classList.add('item-active')
+    play.classList.add("pause");
+    playListContainer.children[playNum].classList.add("item-active");
     isPlay = true;
   } else {
     audio.pause();
-    play.classList.remove('pause');
-    playListContainer.children[playNum].classList.remove('item-active')
+    play.classList.remove("pause");
+    playListContainer.children[playNum].classList.remove("item-active");
     isPlay = false;
   }
 }
@@ -165,7 +163,7 @@ function playAudio() {
 play.addEventListener("click", playAudio);
 
 function getPlayNext() {
-  playListContainer.children[playNum].classList.remove('item-active')
+  playListContainer.children[playNum].classList.remove("item-active");
   playNum < 3 ? playNum++ : (playNum = 0);
   isPlay = false;
   playAudio();
@@ -174,7 +172,7 @@ const playNext = document.querySelector(".play-next");
 playNext.addEventListener("click", getPlayNext);
 
 function getPlayPrev() {
-  playListContainer.children[playNum].classList.remove('item-active')
+  playListContainer.children[playNum].classList.remove("item-active");
   playNum > 0 ? playNum-- : (playNum = 3);
   isPlay = false;
   playAudio();
@@ -182,8 +180,47 @@ function getPlayPrev() {
 const playPrev = document.querySelector(".play-prev");
 playPrev.addEventListener("click", getPlayPrev);
 
+audio.addEventListener("ended", getPlayNext);
 
+const progressBar = document.querySelector("#progress-bar"); // element where progress bar appears
+const durationTime = document.querySelector(".durationTime");
+const currentTime = document.querySelector(".currentTime");
 
+// update progressBar.max to song object's duration, same for progressBar.value, update currentTime/duration DOM
+function updateProgressValue() {
+  progressBar.max = audio.duration;
+  progressBar.value = audio.currentTime;
+  currentTime.innerHTML = formatTime(Math.floor(audio.currentTime));
+  if (formatTime(Math.floor(audio.duration)) === "NaN:NaN") {
+    durationTime.innerHTML = "0:00";
+  } else {
+    durationTime.innerHTML = formatTime(Math.floor(audio.duration));
+  }
+}
+
+function formatTime(seconds) {
+  let min = Math.floor(seconds / 60);
+  let sec = Math.floor(seconds - min * 60);
+  if (sec < 10) {
+    sec = `0${sec}`;
+  }
+  return `${min}:${sec}`;
+}
+
+// run updateProgressValue function every 1/2 second to show change in progressBar and song.currentTime on the DOM
+setInterval(updateProgressValue, 500);
+
+// function where progressBar.value is changed when slider thumb is dragged without auto-playing audio
+function changeProgressBar() {
+  audio.currentTime = progressBar.value;
+}
+progressBar.addEventListener("change", changeProgressBar);
+
+const volumeProgressBar = document.querySelector("#soundVolume");
+function changeVolumeProgressBar() {
+  audio.volume = volumeProgressBar.value;
+}
+volumeProgressBar.addEventListener("change", changeVolumeProgressBar);
 
 function setLocalStorage() {
   const name = document.querySelector(".name");
