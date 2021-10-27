@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="assets/favicon.ico" rel="shortcut icon" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    />
     <link rel="stylesheet" href="css/owfont-regular.css" />
     <link rel="stylesheet" href="css/style.css" />
     <title>momentum</title>
@@ -20,12 +24,12 @@
         <input type="range" id="progress-bar" min="0" max="" value="0" />
         <div class="audio-time">
           <div class="currentTime"></div>
-          <span><p> / </p></span>
+          <span><p>/</p></span>
           <div class="durationTime"></div>
         </div>
 
         <div class="volume">
-          <div id="muteButton" class="muteButton">
+          <!-- <div id="muteButton" class="muteButton">
             <svg
               width="20"
               height="20"
@@ -37,7 +41,11 @@
                 fill="#fff"
               />
             </svg>
-          </div>
+          </div> -->
+          <!-- class="player__button volume controls_item" -->
+          <button id="volumeButton" class="volume-button">
+            <i class="fas fa-volume-up volume_icon fa_btn_controls"></i>
+          </button>
           <input
             id="soundVolume"
             type="range"

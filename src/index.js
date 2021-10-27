@@ -219,8 +219,35 @@ progressBar.addEventListener("change", changeProgressBar);
 const volumeProgressBar = document.querySelector("#soundVolume");
 function changeVolumeProgressBar() {
   audio.volume = volumeProgressBar.value;
+  updateVolumeIcon();
 }
 volumeProgressBar.addEventListener("change", changeVolumeProgressBar);
+
+
+const volumeIcon = document.querySelector(".volume-button");
+
+function updateVolumeIcon() {
+  if (audio.muted || audio.volume === 0) {
+    volumeIcon.innerHTML = '<i class="fas fa-volume-mute"></i>';
+    volumeIcon.style.opacity = 0.4;
+  } else if (audio.volume > 0 && audio.volume <= 0.5) {
+    volumeIcon.innerHTML = '<i class="fas fa-volume-down"></i>';
+    volumeIcon.style.opacity = 0.9;
+  } else {
+    volumeIcon.innerHTML = '<i class="fas fa-volume-up"></i>';
+    volumeIcon.style.opacity = 1;
+  }
+}
+volumeIcon.addEventListener("click", updateVolumeIcon)
+
+function toggleMute() {
+  audio.muted = !audio.muted;
+  updateVolumeIcon() 
+  // if (audio.muted) {
+  //   volumeIcon.innerHTML = '<i class="fas fa-volume-mute"></i>';
+  // }
+}
+volumeIcon.addEventListener("click", toggleMute);
 
 function setLocalStorage() {
   const name = document.querySelector(".name");
