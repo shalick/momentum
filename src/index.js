@@ -136,6 +136,7 @@ let playNum = 0;
 const play = document.querySelector(".play");
 const audio = new Audio();
 const songTitle = document.querySelector(".song-title");
+audio.src = playList[playNum].src;
 
 const playListContainer = document.querySelector("ul.play-list");
 playList.forEach((el) => {
@@ -147,7 +148,6 @@ playList.forEach((el) => {
 
 function playAudio() {
   if (!isPlay) {
-    audio.src = playList[playNum].src;
     // audio.currentTime = 0;
     audio.play();
     play.classList.add("pause");
@@ -159,7 +159,7 @@ function playAudio() {
     audio.pause();
     play.classList.remove("pause");
     playListContainer.children[playNum].classList.remove("item-active");
-    songTitle.textContent = "";
+    // songTitle.textContent = "";
     isPlay = false;
   }
 }
@@ -169,6 +169,7 @@ play.addEventListener("click", playAudio);
 function getPlayNext() {
   playListContainer.children[playNum].classList.remove("item-active");
   playNum < 3 ? playNum++ : (playNum = 0);
+  audio.currentTime = 0;
   isPlay = false;
   playAudio();
 }
@@ -178,6 +179,7 @@ playNext.addEventListener("click", getPlayNext);
 function getPlayPrev() {
   playListContainer.children[playNum].classList.remove("item-active");
   playNum > 0 ? playNum-- : (playNum = 3);
+  audio.currentTime = 0;
   isPlay = false;
   playAudio();
 }
