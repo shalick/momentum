@@ -31,6 +31,31 @@ body {
   padding: 20px;
 }
 
+.player-up {
+  display: flex;
+} 
+
+.progress-title-time {
+  margin-left: 20px;
+  margin-right: 10px;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  /* align-content: space-between; */
+  align-items: start;
+} 
+
+.song-title {
+  font-weight: bold;
+}
+
+.progress-time {
+  display: flex;
+}
+
+#progress-bar {
+  margin-right: 15px;
+}
+
 .player-controls {
   display: flex;
   align-items: center;
@@ -46,16 +71,17 @@ body {
 }
 
 .currentTime {
-  padding-right: 7px;
+  padding-right: 5px;
 }
 
 .durationTime {
-  padding-left: 7px;
+  padding-left: 5px;
 }
 
 .volume {
   display: flex;
-  align-items: center;
+  justify-content: center;
+  /* align-self: center; */
 }
 
 .volume-button {

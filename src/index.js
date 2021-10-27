@@ -135,6 +135,7 @@ let isPlay = false;
 let playNum = 0;
 const play = document.querySelector(".play");
 const audio = new Audio();
+const songTitle = document.querySelector(".song-title");
 
 const playListContainer = document.querySelector("ul.play-list");
 playList.forEach((el) => {
@@ -151,11 +152,14 @@ function playAudio() {
     audio.play();
     play.classList.add("pause");
     playListContainer.children[playNum].classList.add("item-active");
+    songTitle.textContent = playList[playNum].title;
+    console.log(songTitle.textContent);
     isPlay = true;
   } else {
     audio.pause();
     play.classList.remove("pause");
     playListContainer.children[playNum].classList.remove("item-active");
+    songTitle.textContent = "";
     isPlay = false;
   }
 }
