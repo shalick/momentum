@@ -104,6 +104,16 @@ body {
 }
 .play-list {
   text-align: left;
+  /* display: grid;
+  grid-template-columns: 20px 1fr; */
+}
+
+.container-child {
+  display: flex;
+}
+
+.display-none {
+  display: none;
 }
 
 .play-item {
@@ -128,7 +138,7 @@ body {
   font-weight: 900;
 }
 
-.item-active::before {
+.item-active { 
   color: #C5B358;
 }
 

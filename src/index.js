@@ -1,4 +1,4 @@
-// import "./css/style.css";
+import "./css/style.css";
 
 import playList from "./js/playList.js";
 console.log("Привет. Спасибо, что проверяешь работу. Всё ещё доделываю. Пожалуйста, проверь через пару дней");
@@ -138,13 +138,31 @@ const audio = new Audio();
 const songTitle = document.querySelector(".song-title");
 audio.src = playList[playNum].src;
 
+
 const playListContainer = document.querySelector("ul.play-list");
 playList.forEach((el) => {
+  const playListContainerCild = document.createElement("div");
+  playListContainerCild.classList.add("container-child")
+  const button = document.createElement("div");
+  button.classList.add("playlist-play-pause-buton");
+  const iplay = document.createElement("i");
+  iplay.classList.add("fas");
+  iplay.classList.add("fa-play");
+  button.append(iplay);
+  const ipause = document.createElement("i");
+  ipause.classList.add("fas");
+  ipause.classList.add("fa-pause");
+  ipause.classList.add("display-none");
+  button.append(ipause);
+  playListContainerCild.append(button);
   const li = document.createElement("li");
   li.classList.add("play-item");
   li.textContent = el.title;
-  playListContainer.append(li);
+  playListContainerCild.append(li);
+  playListContainer.append(playListContainerCild);
 });
+const playlistButton = document.querySelectorAll(".playlist-play-pause-buton");
+
 
 function playAudio() {
   if (!isPlay) {
@@ -164,7 +182,15 @@ function playAudio() {
   }
 }
 
+function playAudioWrapper(i) {
+  playNum = i;
+  return playAudio();
+}
+
 play.addEventListener("click", playAudio);
+playlistButton.forEach((el, i) => {
+  el.addEventListener("click", playAudioWrapper(i));
+})
 
 function getPlayNext() {
   playListContainer.children[playNum].classList.remove("item-active");
