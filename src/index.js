@@ -1,7 +1,6 @@
 // import "./css/style.css";
 
 import playList from "./js/playList.js";
-console.log("Привет. Спасибо, что проверяешь работу. Всё ещё доделываю. Пожалуйста, проверь через пару дней");
 
 document.getElementById("enterText").placeholder = "[Enter your name]";
 
