@@ -3,7 +3,6 @@
 import playList from "./js/playList.js";
 
 document.getElementById("enterText").placeholder = "[Enter your name]";
-alert("Audio Player работает здесь https://shalick-momentum.netlify.app/ ")
 
 function showTime() {
   const date = new Date();
